@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>Tutorial</title>
+    <title lang="en">Tutorial</title>
+    <title lang="ru">Инструкция</title>
 
     <style>
         @media (prefers-color-scheme: dark) {
@@ -20,17 +22,82 @@
                 background-color: white;
             }
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
+
+    <script type="text/javascript">
+        const NAMES = {
+            LANGUAGE: 'language'
+        };
+        const LANGUAGES = {
+            ENGLISH: 'en',
+            RUSSIAN: 'ru'
+        };
+
+        function getLanguage() {
+            return localStorage.getItem(NAMES.LANGUAGE) || LANGUAGES.ENGLISH;
+        }
+
+        function setLanguage(language, oldLanguage = getLanguage()) {
+            if (language !== oldLanguage) {
+                let englishElements = document.querySelectorAll('body [lang="' + oldLanguage + '"]');
+                let languageElements = document.querySelectorAll('body [lang="' + language + '"]');
+
+                for (const element of englishElements) {
+                    element.classList.add('hidden');
+                }
+                for (const element of languageElements) {
+                    element.classList.remove('hidden');
+                }
+
+                let titleElement = document.querySelector('title');
+                let languageTitleElement = document.querySelector('title[lang="' + language + '"]');
+
+                if (titleElement && languageTitleElement) {
+                    titleElement.innerText = languageTitleElement.innerText;
+                }
+            }
+
+            localStorage.setItem(NAMES.LANGUAGE, language);
+        }
+
+        function showJavascriptElements() {
+            const javascriptElements = document.querySelectorAll('.javascript-required');
+
+            for (const element of javascriptElements) {
+                element.classList.remove('hidden');
+            }
+        }
+    </script>
 </head>
 <body>
-<h1>Programming language learning tutorial v0.0.1</h1>
-<h3>Table of Contents</h3>
+<h1 lang="en">Programming language learning tutorial v0.0.1</h1>
+<h1 lang="ru" class="hidden">Изучение языка программирования v0.0.1</h1>
 
-<p><a href="#introduction">Introduction</a></p>
-<p><a href="#choose-project">Choose a project</a></p>
-<p><a href="#choose-programming-language">Choose a programming language</a></p>
-<p><a href="#choose-issue-tracking-system">Choose an issue tracking system</a></p>
-<p><a href="#choose-version-control">Choose a version control system</a></p>
+<nav aria-label="Language selection" class="javascript-required hidden">
+    <button onclick="setLanguage(LANGUAGES.ENGLISH)">English</button>
+    <button onclick="setLanguage(LANGUAGES.RUSSIAN)">Русский</button>
+</nav>
+
+<nav lang="en" aria-label="Table of Contents">
+    <h3>Table of Contents</h3>
+    <p><a href="#introduction">Introduction</a></p>
+    <p><a href="#choose-project">Choose a project</a></p>
+    <p><a href="#choose-programming-language">Choose a programming language</a></p>
+    <p><a href="#choose-issue-tracking-system">Choose an issue tracking system</a></p>
+    <p><a href="#choose-version-control">Choose a version control system</a></p>
+</nav>
+<nav lang="ru" aria-label="Содержание" class="hidden">
+    <h3>Содержание</h3>
+    <p><a href="#introduction">Вступление</a></p>
+    <p><a href="#choose-project">Выбери проект</a></p>
+    <p><a href="#choose-programming-language">Выбери язык программмирования</a></p>
+    <p><a href="#choose-issue-tracking-system">Выбери систему для отслеживания задач</a></p>
+    <p><a href="#choose-version-control">Выбери систему контроля версий</a></p>
+</nav>
 <h3 id="introduction">Introduction</h3>
 <p>
     Hello, let's learn a new programming language.
@@ -62,4 +129,12 @@
     Remember to use tags to mark versions and other useful metadata for commits.
 </p>
 </body>
+<script type="text/javascript">
+    (function () {
+        // Init Javascript-specific sections
+        showJavascriptElements();
+        // Init language-specific sections
+        setLanguage(getLanguage(), LANGUAGES.ENGLISH);
+    })();
+</script>
 </html>
