@@ -30,12 +30,17 @@
 
     <script type="text/javascript">
         const NAMES = {
-            LANGUAGE: 'language'
+            LANGUAGE: 'language',
+            PROJECT: 'project'
         };
         const LANGUAGES = {
             ENGLISH: 'en',
             RUSSIAN: 'ru'
         };
+        const PROJECTS = {
+            ABSTRACT: 'abstract',
+            IMAGE_VIEWER: 'image-viewer'
+        }
 
         function getLanguage() {
             return localStorage.getItem(NAMES.LANGUAGE) || LANGUAGES.ENGLISH;
@@ -43,10 +48,10 @@
 
         function setLanguage(language, oldLanguage = getLanguage()) {
             if (language !== oldLanguage) {
-                let englishElements = document.querySelectorAll('body [lang="' + oldLanguage + '"]');
+                let oldLanguageElements = document.querySelectorAll('body [lang="' + oldLanguage + '"]');
                 let languageElements = document.querySelectorAll('body [lang="' + language + '"]');
 
-                for (const element of englishElements) {
+                for (const element of oldLanguageElements) {
                     element.classList.add('hidden');
                 }
                 for (const element of languageElements) {
@@ -62,6 +67,26 @@
             }
 
             localStorage.setItem(NAMES.LANGUAGE, language);
+        }
+
+        function getProject() {
+            return localStorage.getItem(NAMES.PROJECT) || PROJECTS.ABSTRACT;
+        }
+
+        function setProject(project, oldProject = getProject()) {
+            if (project !== oldProject) {
+                let oldProjectElements = document.querySelectorAll('body [data-project="' + oldProject + '"]');
+                let projectElements = document.querySelectorAll('body [data-project="' + project + '"]');
+
+                for (const element of oldProjectElements) {
+                    element.classList.add('hidden');
+                }
+                for (const element of projectElements) {
+                    element.classList.remove('hidden');
+                }
+            }
+
+            localStorage.setItem(NAMES.PROJECT, project);
         }
 
         function showJavascriptElements() {
@@ -84,19 +109,23 @@
 
 <nav lang="en" aria-label="Table of Contents">
     <h3>Table of Contents</h3>
-    <p><a href="#introduction">Introduction</a></p>
-    <p><a href="#choose-project">Choose a project</a></p>
-    <p><a href="#choose-programming-language">Choose a programming language</a></p>
-    <p><a href="#choose-issue-tracking-system">Choose an issue tracking system</a></p>
-    <p><a href="#choose-version-control">Choose a version control system</a></p>
+    <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#choose-project">Choose a project</a></li>
+        <li><a href="#choose-programming-language">Choose a programming language</a></li>
+        <li><a href="#choose-issue-tracking-system">Choose an issue tracking system</a></li>
+        <li><a href="#choose-version-control">Choose a version control system</a></li>
+    </ul>
 </nav>
 <nav lang="ru" aria-label="Содержание" class="hidden">
     <h3>Содержание</h3>
-    <p><a href="#introduction">Вступление</a></p>
-    <p><a href="#choose-project">Выбери проект</a></p>
-    <p><a href="#choose-programming-language">Выбери язык программирования</a></p>
-    <p><a href="#choose-issue-tracking-system">Выбери систему для отслеживания задач</a></p>
-    <p><a href="#choose-version-control">Выбери систему контроля версий</a></p>
+    <ul>
+        <li><a href="#introduction">Вступление</a></li>
+        <li><a href="#choose-project">Выбери проект</a></li>
+        <li><a href="#choose-programming-language">Выбери язык программирования</a></li>
+        <li><a href="#choose-issue-tracking-system">Выбери систему для отслеживания задач</a></li>
+        <li><a href="#choose-version-control">Выбери систему контроля версий</a></li>
+    </ul>
 </nav>
 <section id="introduction">
     <article lang="en">
@@ -122,10 +151,32 @@
         </p>
     </article>
 </section>
-<h3 id="choose-project">Choose a project</h3>
-<p>
-
-</p>
+<section id="choose-project">
+    <article lang="en">
+        <h3>Choose a project</h3>
+        <p>
+            Practical project will help you to move to specific goals by learning a new language.
+            It is not necessary to choose a project from this tutorial.
+            You can choose any project that suits you.
+        </p>
+        <nav aria-label="Project selection" class="javascript-required hidden">
+            <button onclick="setProject(PROJECTS.ABSTRACT)">Abstract application</button>
+            <button onclick="setProject(PROJECTS.IMAGE_VIEWER)">Image viewer</button>
+        </nav>
+    </article>
+    <article lang="ru" class="hidden">
+        <h3>Выбери проект</h3>
+        <p>
+            Практический проект поможет в изучении языка постановкой конкретных целей.
+            Необязательно брать проект из этого руководства.
+            Можно придумать любой проект.
+        </p>
+        <nav aria-label="Выбор проекта" class="javascript-required hidden">
+            <button onclick="setProject(PROJECTS.ABSTRACT)">Абстрактная программа</button>
+            <button onclick="setProject(PROJECTS.IMAGE_VIEWER)">Просмотр изображений</button>
+        </nav>
+    </article>
+</section>
 <h3 id="choose-programming-language">Choose a programming language</h3>
 <p>
 
@@ -152,6 +203,8 @@
         showJavascriptElements();
         // Init language-specific sections
         setLanguage(getLanguage(), LANGUAGES.ENGLISH);
+        // Init project-specific sections
+        setProject(getProject(), PROJECTS.ABSTRACT);
     })();
 </script>
 </html>
