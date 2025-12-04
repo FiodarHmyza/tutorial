@@ -31,7 +31,8 @@
     <script type="text/javascript">
         const NAMES = {
             LANGUAGE: 'language',
-            PROJECT: 'project'
+            PROJECT: 'project',
+            PROGRAMMING_LANGUAGE: 'programming-language'
         };
         const LANGUAGES = {
             ENGLISH: 'en',
@@ -40,6 +41,10 @@
         const PROJECTS = {
             ABSTRACT: 'abstract',
             IMAGE_VIEWER: 'image-viewer'
+        };
+        const PROGRAMMING_LANGUAGES = {
+            JAVA: 'java',
+            GO: 'go'
         }
 
         function getLanguage() {
@@ -89,6 +94,26 @@
             localStorage.setItem(NAMES.PROJECT, project);
         }
 
+        function getProgrammingLanguage() {
+            return localStorage.getItem(NAMES.PROGRAMMING_LANGUAGE) || PROGRAMMING_LANGUAGES.JAVA;
+        }
+
+        function setProgrammingLanguage(language, oldLanguage = getProgrammingLanguage()) {
+            if (language !== oldLanguage) {
+                let oldLanguageElements = document.querySelectorAll('body [data-programming-language="' + oldLanguage + '"]');
+                let languageElements = document.querySelectorAll('body [data-programming-language="' + language + '"]');
+
+                for (const element of oldLanguageElements) {
+                    element.classList.add('hidden');
+                }
+                for (const element of languageElements) {
+                    element.classList.remove('hidden');
+                }
+            }
+
+            localStorage.setItem(NAMES.PROJECT, project);
+        }
+
         function showJavascriptElements() {
             const javascriptElements = document.querySelectorAll('.javascript-required');
 
@@ -99,8 +124,10 @@
     </script>
 </head>
 <body>
-<h1 lang="en">Programming language learning tutorial v0.0.1</h1>
-<h1 lang="ru" class="hidden">Изучение языка программирования v0.0.1</h1>
+<h1 lang="en">Programming language learning tutorial</h1>
+<h1 lang="ru" class="hidden">Изучение языка программирования</h1>
+<h5 lang="en">Version: 0.0.1</h5>
+<h5 lang="ru" class="hidden">Версия: 0.0.1</h5>
 
 <nav aria-label="Language selection" class="javascript-required hidden">
     <button onclick="setLanguage(LANGUAGES.ENGLISH)">English</button>
@@ -177,10 +204,22 @@
         </nav>
     </article>
 </section>
-<h3 id="choose-programming-language">Choose a programming language</h3>
-<p>
-
-</p>
+<section id="choose-programming-language">
+    <article lang="en">
+        <h3>Choose a programming language</h3>
+        <nav aria-label="Programming language selection" class="javascript-required hidden">
+            <button onclick="setProgrammingLanguage(PROGRAMMING_LANGUAGES.JAVA)">Java</button>
+            <button onclick="setProgrammingLanguage(PROGRAMMING_LANGUAGES.GO)">Go</button>
+        </nav>
+    </article>
+    <article lang="ru" class="hidden">
+        <h3>Выбери язык программирования</h3>
+        <nav aria-label="Выбери язык программирования" class="javascript-required hidden">
+            <button onclick="setProgrammingLanguage(PROGRAMMING_LANGUAGES.JAVA)">Java</button>
+            <button onclick="setProgrammingLanguage(PROGRAMMING_LANGUAGES.GO)">Go</button>
+        </nav>
+    </article>
+</section>
 <h3 id="choose-issue-tracking-system">Choose an issue tracking system</h3>
 <p>
     You need to split your goal into several smaller tasks and track their status.
@@ -205,6 +244,8 @@
         setLanguage(getLanguage(), LANGUAGES.ENGLISH);
         // Init project-specific sections
         setProject(getProject(), PROJECTS.ABSTRACT);
+        // Init programming language-specific sections
+        setProgrammingLanguage(getProgrammingLanguage(), PROGRAMMING_LANGUAGES.JAVA);
     })();
 </script>
 </html>
