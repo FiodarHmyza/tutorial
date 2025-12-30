@@ -40,12 +40,12 @@
         };
         const PROJECTS = {
             ABSTRACT: 'abstract',
-            IMAGE_VIEWER: 'image-viewer'
+            HTML_EXTRACTOR: 'html-extractor'
         };
         const PROGRAMMING_LANGUAGES = {
             JAVA: 'java',
             GO: 'go'
-        }
+        };
 
         function getLanguage() {
             return localStorage.getItem(NAMES.LANGUAGE) || LANGUAGES.ENGLISH;
@@ -188,8 +188,15 @@
         </p>
         <nav aria-label="Project selection" class="javascript-required hidden">
             <button onclick="setProject(PROJECTS.ABSTRACT)">Abstract application</button>
-            <button onclick="setProject(PROJECTS.IMAGE_VIEWER)">Image viewer</button>
+            <button onclick="setProject(PROJECTS.HTML_EXTRACTOR)">HTML extractor</button>
         </nav>
+        <p data-project="abstract">
+            Abstract application without specific functionality.
+        </p>
+        <p data-project="html-extractor" class="hidden">
+            Application for extracting resources (including language-specific and project-specific tags) from HTML files.
+            The main purpose of the application is to split this big HTML file into smaller pieces.
+        </p>
     </article>
     <article lang="ru" class="hidden">
         <h3>Выбери проект</h3>
@@ -200,8 +207,15 @@
         </p>
         <nav aria-label="Выбор проекта" class="javascript-required hidden">
             <button onclick="setProject(PROJECTS.ABSTRACT)">Абстрактная программа</button>
-            <button onclick="setProject(PROJECTS.IMAGE_VIEWER)">Просмотр изображений</button>
+            <button onclick="setProject(PROJECTS.HTML_EXTRACTOR)">Разборщик HTML</button>
         </nav>
+        <p data-project="abstract">
+            Абстрактная программа без конкретной функциональности.
+        </p>
+        <p data-project="html-extractor" class="hidden">
+            Программа для извлечения ресурсов (включая теги для языка и проекта) из HTML файлов.
+            Главное назначение программы – разделить этот большой HTML файл на меньшие части.
+        </p>
     </article>
 </section>
 <section id="choose-programming-language">
